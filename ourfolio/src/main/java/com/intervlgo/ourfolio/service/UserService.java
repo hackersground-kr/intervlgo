@@ -94,7 +94,7 @@ public class UserService {
             status = HttpStatus.BAD_REQUEST;
             return new ResponseEntity<>(status);
         }
-        user.update(request.getNewId(), request.getNewPassword());
+        user.update(request.getNewId(), passwordEncoder.encode(request.getNewPassword()));
 
         UserDto body = user.toDto();
 
