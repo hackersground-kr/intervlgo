@@ -8,6 +8,8 @@ import com.intervlgo.ourfolio.entity.User;
 import com.intervlgo.ourfolio.filter.JwtProvider;
 import com.intervlgo.ourfolio.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -71,6 +74,22 @@ public class UserService {
         UserDto body = userRepository.findByUserId(request.getUserId()).get().toDto();
 
         return new ResponseEntity<>(body, headers, status);
+    }
+
+    public ResponseEntity<Page<UserDto>> findUsers(Pageable pageable, String username, String region, String occupation) {
+        Page<User> userPage = userRepository.searchUser(pageable, username, region, occupation);
+
+        Page<UserDto> body = userPage.map(User::toDto);
+
+        return ResponseEntity.ok(body);
+    }
+
+    public ResponseEntity<UserDto> findUserByUserId(String userId) {
+        Optional<User> optionalUser = userRepository.findByUserId(userId);
+        if (optionalUser.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(optionalUser.get().toDto());
     }
 
     @Transactional
