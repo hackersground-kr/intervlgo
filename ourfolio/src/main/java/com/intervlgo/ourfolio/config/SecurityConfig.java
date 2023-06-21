@@ -1,5 +1,6 @@
 package com.intervlgo.ourfolio.config;
 
+import com.intervlgo.ourfolio.filter.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -17,6 +18,8 @@ import java.util.List;
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final JwtProvider jwtProvider;
 
 
     private static final String[] SWAGGER_PATH = {
@@ -47,6 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/user/token/**").permitAll()
                 .anyRequest().authenticated()
+                .and()
+                .apply(new FilterConfig(jwtProvider))
                 .and()
                 .cors().configurationSource(request -> {
                     CorsConfiguration cors = new CorsConfiguration();

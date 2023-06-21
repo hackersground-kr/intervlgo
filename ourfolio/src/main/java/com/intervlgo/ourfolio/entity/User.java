@@ -30,10 +30,20 @@ public class User extends BaseTimeEntity{
     public UserDto toDto() {
         UserDto userDto = new UserDto();
         userDto.setUserId(userId);
-        userDto.setUserPassword(userPassword);
         userDto.setUsername(username);
         userDto.setRegion(region);
         userDto.setOccupation(occupation);
         return userDto;
+    }
+
+    public void update(String username, String region, String occupation){
+        if (username != null) this.username= username;
+        if (region != null) this.region = region;
+        if (occupation != null) this.occupation = occupation;
+    }
+
+    public void update(String Id, String userPassword) {
+        if (userPassword != null) this.userPassword = userPassword;
+        if (Id != null) this.userId = Id;
     }
 }

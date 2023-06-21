@@ -3,6 +3,7 @@ package com.intervlgo.ourfolio.service;
 import com.intervlgo.ourfolio.auth.PrincipalDetails;
 import com.intervlgo.ourfolio.auth.PrincipalDetailsService;
 import com.intervlgo.ourfolio.dto.UserDto;
+import com.intervlgo.ourfolio.dto.UserIdPasswordDto;
 import com.intervlgo.ourfolio.entity.User;
 import com.intervlgo.ourfolio.filter.JwtProvider;
 import com.intervlgo.ourfolio.repository.UserRepository;
@@ -15,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -45,7 +47,6 @@ public class UserService {
         userRepository.save(user);
 
         UserDto body = user.toDto();
-        body.setUserPassword(request.getUserPassword());
 
         return new ResponseEntity<>(body, status);
     }
@@ -68,10 +69,35 @@ public class UserService {
         headers.set("Authorization", jwtProvider.generateToken(request.getUserId()));
 
         UserDto body = userRepository.findByUserId(request.getUserId()).get().toDto();
-        body.setUserPassword(request.getUserPassword());
 
         return new ResponseEntity<>(body, headers, status);
     }
 
+    @Transactional
+    public ResponseEntity<UserDto> updateUser(UserDto request, String jwtToken) {
+        HttpStatus status = HttpStatus.OK;
 
+        User user = userRepository.findByUserId(jwtProvider.getId(jwtToken)).get();
+        user.update(request.getUsername(), request.getRegion(), request.getOccupation());
+
+        UserDto body = user.toDto();
+
+        return new ResponseEntity<>(body, status);
+    }
+
+    @Transactional
+    public ResponseEntity<UserDto> updateIdPassword(UserIdPasswordDto request, String jwtToken) {
+        HttpStatus status = HttpStatus.OK;
+
+        User user = userRepository.findByUserId(jwtProvider.getId(jwtToken)).get();
+        if (!passwordEncoder.matches(request.getUserPassword(), user.getUserPassword())){
+            status = HttpStatus.BAD_REQUEST;
+            return new ResponseEntity<>(status);
+        }
+        user.update(request.getNewId(), request.getNewPassword());
+
+        UserDto body = user.toDto();
+
+        return new ResponseEntity<>(body, status);
+    }
 }

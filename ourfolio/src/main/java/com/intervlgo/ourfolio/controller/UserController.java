@@ -1,6 +1,7 @@
 package com.intervlgo.ourfolio.controller;
 
 import com.intervlgo.ourfolio.dto.UserDto;
+import com.intervlgo.ourfolio.dto.UserIdPasswordDto;
 import com.intervlgo.ourfolio.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,5 +26,25 @@ public class UserController {
     ) {
         return userService.signIn(userDto);
     }
+
+    @PutMapping("")
+    public ResponseEntity<UserDto> updateUser(
+            @RequestBody UserDto userDto,
+            @RequestHeader(name = "Authorization") String jwtToken
+    ) {
+        return userService.updateUser(userDto, jwtToken);
+    }
+
+    @PutMapping("/auth")
+    public ResponseEntity<UserDto> updateUser(
+            @RequestBody UserIdPasswordDto userIdPasswordDto,
+            @RequestHeader(name = "Authorization") String jwtToken
+    ) {
+        return userService.updateIdPassword(userIdPasswordDto, jwtToken);
+    }
+
+
+
+
 
 }
