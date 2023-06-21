@@ -22,13 +22,14 @@ jobs:
           java-version: '17'
 
       - name: Build with Gradle
-        run: gradle init
+        working-directory: ./ourfolio
+        run: chmod +x ./gradlew && ./gradlew bootJar
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: java-app
-          path: '${{ github.workspace }}/target/*.jar'
+          path: ./ourfolio/build/libs/*.jar
 
   deploy:
     runs-on: ubuntu-latest
