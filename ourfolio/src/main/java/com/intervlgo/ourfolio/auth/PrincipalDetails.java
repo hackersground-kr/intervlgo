@@ -1,14 +1,13 @@
-package auth;
+package com.intervlgo.ourfolio.auth;
 
 
 
-import entity.User;
+import com.intervlgo.ourfolio.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Map;
 
 
 @RequiredArgsConstructor

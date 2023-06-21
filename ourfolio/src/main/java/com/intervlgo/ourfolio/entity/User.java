@@ -1,23 +1,22 @@
-package entity;
+package com.intervlgo.ourfolio.entity;
 
+import com.intervlgo.ourfolio.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Getter
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
-@Table(name = "user")
+@Table(name = "users")
 public class User extends BaseTimeEntity{
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_pk")
     private Long pk;
     @Column(name = "user_id")
@@ -27,4 +26,14 @@ public class User extends BaseTimeEntity{
     private String username;
     private String region;
     private String occupation;
+
+    public UserDto toDto() {
+        UserDto userDto = new UserDto();
+        userDto.setUserId(userId);
+        userDto.setUserPassword(userPassword);
+        userDto.setUsername(username);
+        userDto.setRegion(region);
+        userDto.setOccupation(occupation);
+        return userDto;
+    }
 }

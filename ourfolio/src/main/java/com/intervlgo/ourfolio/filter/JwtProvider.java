@@ -1,7 +1,7 @@
-package filter;
+package com.intervlgo.ourfolio.filter;
 
-import auth.PrincipalDetails;
-import auth.PrincipalDetailsService;
+import com.intervlgo.ourfolio.auth.PrincipalDetails;
+import com.intervlgo.ourfolio.auth.PrincipalDetailsService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -11,8 +11,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 @RequiredArgsConstructor
 public class JwtProvider {

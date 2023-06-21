@@ -1,4 +1,4 @@
-package filter;
+package com.intervlgo.ourfolio.filter;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;

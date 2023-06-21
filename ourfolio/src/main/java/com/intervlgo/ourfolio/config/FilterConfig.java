@@ -1,7 +1,8 @@
-package config;
+package com.intervlgo.ourfolio.config;
 
-import filter.JwtAuthenticationFilter;
-import filter.JwtProvider;
+
+import com.intervlgo.ourfolio.filter.JwtAuthenticationFilter;
+import com.intervlgo.ourfolio.filter.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

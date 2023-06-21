@@ -1,8 +1,9 @@
-package config;
+package com.intervlgo.ourfolio.config;
 
-import auth.PrincipalDetailsService;
+
+import com.intervlgo.ourfolio.auth.PrincipalDetailsService;
+import com.intervlgo.ourfolio.filter.JwtProvider;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import filter.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
