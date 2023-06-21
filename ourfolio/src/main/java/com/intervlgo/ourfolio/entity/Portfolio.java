@@ -1,4 +1,4 @@
-package entity;
+package com.intervlgo.ourfolio.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,8 +13,9 @@ import javax.persistence.*;
 @Getter
 @Builder
 @Table(name = "portfolio")
-public class PortFolio extends BaseTimeEntity{
+public class Portfolio extends BaseTimeEntity{
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_pk")
@@ -22,5 +23,6 @@ public class PortFolio extends BaseTimeEntity{
     private String content;
     private String portfolio_file_name;
     private String portfolio_ori_name;
+    private Long view_cnt;
 
 }

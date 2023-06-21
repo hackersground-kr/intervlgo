@@ -1,4 +1,4 @@
-package filter;
+package com.intervlgo.ourfolio.filter;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -23,9 +23,6 @@ public class JwtAuthenticationFilter  extends OncePerRequestFilter {
         if(jwtProvider.validateToken(token)){
             Authentication auth = jwtProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(auth);
-        }
-        else {
-            response.setStatus(401);
         }
         filterChain.doFilter(request,response);
     }

@@ -1,4 +1,4 @@
-package entity;
+package com.intervlgo.ourfolio.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,6 +18,6 @@ public class Score {
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "portfolio_id")
-    private PortFolio portFolio;
+    private Portfolio portFolio;
     private Byte score;
 }

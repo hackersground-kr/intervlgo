@@ -1,4 +1,4 @@
-package entity;
+package com.intervlgo.ourfolio.entity;
 
 import lombok.Getter;
 import lombok.Setter;

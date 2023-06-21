@@ -1,16 +1,15 @@
-package auth;
+package com.intervlgo.ourfolio.auth;
 
-import entity.User;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
+
+import com.intervlgo.ourfolio.entity.User;
+import com.intervlgo.ourfolio.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import repository.UserRepository;
 
 import java.util.Optional;
+
 
 @RequiredArgsConstructor
 @Service
