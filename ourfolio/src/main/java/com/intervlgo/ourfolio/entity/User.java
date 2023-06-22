@@ -41,19 +41,16 @@ public class User extends BaseTimeEntity{
         return userDto;
     }
 
-    public void update(String username, String region, String occupation){
+    public void update(String username, String region, String occupation, Boolean isHavingJob){
         if (username != null) this.username= username;
         if (region != null) this.region = region;
         if (occupation != null) this.occupation = occupation;
+        if (isHavingJob != null) this.isHavingJob = isHavingJob;
     }
 
     public void update(String Id, String userPassword) {
         if (userPassword != null) this.userPassword = userPassword;
         if (Id != null) this.userId = Id;
-    }
-
-    public void changeEmploymentStatus() {
-        isHavingJob = !isHavingJob;
     }
 
     public void deactivateAccount() {

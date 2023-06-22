@@ -99,7 +99,7 @@ public class UserService {
         HttpStatus status = HttpStatus.OK;
 
         User user = userRepository.findByUserId(jwtProvider.getId(jwtToken)).get();
-        user.update(request.getUsername(), request.getRegion(), request.getOccupation());
+        user.update(request.getUsername(), request.getRegion(), request.getOccupation(), request.getIsHavingJob());
 
         UserDto body = user.toDto();
 
@@ -121,18 +121,6 @@ public class UserService {
 
         return new ResponseEntity<>(body, status);
     }
-
-    @Transactional
-    public ResponseEntity<UserDto> changeEmploymentStatus(String jwtToken) {
-
-        User user = userRepository.findByUserId(jwtProvider.getId(jwtToken)).get();
-        user.changeEmploymentStatus();
-
-        UserDto body = user.toDto();
-
-        return ResponseEntity.ok(body);
-    }
-
     @Transactional
     public ResponseEntity<UserDto> deactivateAccount(String jwtToken) {
         User user = userRepository.findByUserId(jwtProvider.getId(jwtToken)).get();
