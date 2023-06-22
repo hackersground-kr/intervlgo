@@ -1,12 +1,12 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy JAR app to Azure Web App - testwebappinterv
+name: Build and deploy JAR app to Azure Web App - intervlgo-ourfolio
 
 on:
   push:
     branches:
-      - main
+      - dev_backend
   workflow_dispatch:
 
 jobs:
@@ -21,14 +21,15 @@ jobs:
         with:
           java-version: '17'
 
-      - name: Build with Maven
-        run: mvn clean install
+      - name: Build with Gradle
+        working-directory: ./ourfolio
+        run: chmod +x ./gradlew && ./gradlew bootJar
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: java-app
-          path: '${{ github.workspace }}/target/*.jar'
+          path: ./ourfolio/build/libs/*.jar
 
   deploy:
     runs-on: ubuntu-latest
@@ -47,7 +48,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'testwebappinterv'
+          app-name: 'intervlgo-ourfolio'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CEAB824090BB43BC8179D4FF0B79B771 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D765A888ABE84714A4C535EBDD5864F2 }}
           package: '*.jar'
