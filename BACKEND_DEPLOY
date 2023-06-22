@@ -1,0 +1,70 @@
+1. intervlgo repository를 본인의 github로 fork한다. fork는 main branch만 한다.
+2. azure portal에서 새 리소스를 만든다.
+3. 새 리소스는 웹 앱, 리소스 그룹을 선택하고 웹 앱 이름을 정한다.
+4. 게시는 코드로 런타임 스택은 Java 17을 선택한다.
+5. Java 웹 서버 스택은 자바 SE, 운영체제는 Linux, 지역은 Korea Central, 가격 책정플랜은 기본으로
+6. 배포 탭에서는 GitHub Actions 설정을 예로 선택하고 fork한 intervlgo repository의 main brach에 연결한다
+7. 네트워킹: 공용엑세스 사용은 켜기, 네트워크 삽입 사용은 끈다.
+8. 모니터링의 Application Insights 사용은 아니오로한 무 검토+만들기 이후 만들기를 누른
+9. 배포 완료까지 기다리고 완료되면 리소스로 이동을 클릭한다.
+10. repository의 .github/workflows의 yml파일의 내용을 모두 지우고 아래 내용을 복사한다
+11. 단 이때 최하단의 app-name과 publish-profile은 바꾸지 않는다
+
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy JAR app to Azure Web App - intervlgo-ourfolio
+
+on:
+  push:
+    branches:
+      - dev_backend
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Java version
+        uses: actions/setup-java@v1
+        with:
+          java-version: '17'
+
+      - name: Build with Gradle
+        working-directory: ./ourfolio
+        run: chmod +x ./gradlew && ./gradlew bootJar
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v2
+        with:
+          name: java-app
+          path: ./ourfolio/build/libs/*.jar
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: java-app
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 원래거 그대로 두기
+          slot-name: 'Production'
+          publish-profile: 원래거 그대로 두기
+          package: '*.jar'
+
+여기까지
+11. commit을 하면 자동으로 빌드 + 배포가 진행된다.
+12. 만약 workflow가 진행되지 않으면 우상단의 view Runs를 눌러 workflow를 진행시킨다
