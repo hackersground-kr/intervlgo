@@ -21,14 +21,15 @@ jobs:
         with:
           java-version: '17'
 
-      - name: Build with Maven
-        run: mvn clean install
+      - name: Build with Gradle
+        working-directory: ./ourfolio
+        run: chmod +x ./gradlew && ./gradlew bootJar
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: java-app
-          path: '${{ github.workspace }}/target/*.jar'
+          path: ./ourfolio/build/libs/*.jar
 
   deploy:
     runs-on: ubuntu-latest
@@ -49,5 +50,5 @@ jobs:
         with:
           app-name: 'intervlgo-ourfolio'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_4911762A543448E9B07F6E0EE0ABB9D6 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D765A888ABE84714A4C535EBDD5864F2 }}
           package: '*.jar'
