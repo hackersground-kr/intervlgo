@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -58,7 +59,7 @@ public class PortfolioController {
 
     @PostMapping("/{userId}/score")
     public ResponseEntity<ScoreDto> giveScore(
-            @RequestBody ScoreDto scoreDto,
+           @Validated @RequestBody ScoreDto scoreDto,
             @PathVariable(name = "userId") String portfolioWriterId,
             @RequestHeader(name = "Authorization") String jwtToken
 
