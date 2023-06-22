@@ -46,6 +46,8 @@ public class UserService {
                 .username(request.getUsername())
                 .region(request.getRegion())
                 .occupation(request.getOccupation())
+                .isHavingJob(request.getIsHavingJob())
+                .isEnabled(true)
                 .build();
         userRepository.save(user);
 
@@ -119,4 +121,26 @@ public class UserService {
 
         return new ResponseEntity<>(body, status);
     }
+
+    @Transactional
+    public ResponseEntity<UserDto> changeEmploymentStatus(String jwtToken) {
+
+        User user = userRepository.findByUserId(jwtProvider.getId(jwtToken)).get();
+        user.changeEmploymentStatus();
+
+        UserDto body = user.toDto();
+
+        return ResponseEntity.ok(body);
+    }
+
+    @Transactional
+    public ResponseEntity<UserDto> deactivateAccount(String jwtToken) {
+        User user = userRepository.findByUserId(jwtProvider.getId(jwtToken)).get();
+        user.deactivateAccount();
+
+        UserDto body = user.toDto();
+
+        return ResponseEntity.ok(body);
+    }
+
 }
