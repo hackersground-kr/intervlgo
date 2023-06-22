@@ -23,12 +23,13 @@
 기대 효과 : 기업들의 직무별 구직자 현황 파악 및 채용 연계를 통한 취업난 및 인력 부족 문제 해결.)
 
 ## 제품 아키텍처 (이미지)
+[이미지_링크](https://github.com/hackersground-kr/intervlgo/blob/main/images/OURFOLIO%20%E1%84%8C%E1%85%A6%E1%84%91%E1%85%AE%E1%86%B7%20%E1%84%8B%E1%85%AA%E1%84%8B%E1%85%B5%E1%84%8B%E1%85%A5%20%E1%84%91%E1%85%B3%E1%84%85%E1%85%A6%E1%84%8B%E1%85%B5%E1%86%B7.jpg)
+![OURFOLIO 제품 와이어 프레임](https://github.com/hackersground-kr/intervlgo/assets/137050967/fc5435d7-675b-41a2-b546-65ebc3683b3c)
 
-**(https://github.com/hackersground-kr/intervlgo/blob/main/images/OURFOLIO%20%E1%84%8C%E1%85%A6%E1%84%91%E1%85%AE%E1%86%B7%20%E1%84%8B%E1%85%AA%E1%84%8B%E1%85%B5%E1%84%8B%E1%85%A5%20%E1%84%91%E1%85%B3%E1%84%85%E1%85%A6%E1%84%8B%E1%85%B5%E1%86%B7.jpg)** 
 
 ## 제품 소개 슬라이드
 
-**(https://github.com/hackersground-kr/intervlgo/blob/main/decks/intervlgo%20_%20%E1%84%89%E1%85%AE%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8C%E1%85%A5%E1%86%AB.pdf)**
+[pdf_수정전](https://github.com/hackersground-kr/intervlgo/blob/main/decks/intervlgo%20_%20%E1%84%89%E1%85%AE%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8C%E1%85%A5%E1%86%AB.pdf)
 
 ## 제품 소개 동영상
 
