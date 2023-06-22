@@ -13,9 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Configuration
-@RequiredArgsConstructor
 public class BeanConfig {
-    private final PrincipalDetailsService principalDetailsService;
 
     @PersistenceContext
     EntityManager entityManager;
@@ -25,10 +23,6 @@ public class BeanConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    JwtProvider jwtProvider(){
-        return new JwtProvider(principalDetailsService);
-    }
     @Bean
     public JPAQueryFactory jpaQueryFactory(){return new JPAQueryFactory(entityManager);}
 }

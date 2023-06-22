@@ -8,6 +8,8 @@ import com.intervlgo.ourfolio.entity.User;
 import com.intervlgo.ourfolio.filter.JwtProvider;
 import com.intervlgo.ourfolio.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -43,6 +46,8 @@ public class UserService {
                 .username(request.getUsername())
                 .region(request.getRegion())
                 .occupation(request.getOccupation())
+                .isHavingJob(request.getIsHavingJob())
+                .isEnabled(true)
                 .build();
         userRepository.save(user);
 
@@ -73,12 +78,28 @@ public class UserService {
         return new ResponseEntity<>(body, headers, status);
     }
 
+    public ResponseEntity<Page<UserDto>> findUsers(Pageable pageable, String username, String region, String occupation) {
+        Page<User> userPage = userRepository.searchUser(pageable, username, region, occupation);
+
+        Page<UserDto> body = userPage.map(User::toDto);
+
+        return ResponseEntity.ok(body);
+    }
+
+    public ResponseEntity<UserDto> findUserByUserId(String userId) {
+        Optional<User> optionalUser = userRepository.findByUserId(userId);
+        if (optionalUser.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(optionalUser.get().toDto());
+    }
+
     @Transactional
     public ResponseEntity<UserDto> updateUser(UserDto request, String jwtToken) {
         HttpStatus status = HttpStatus.OK;
 
         User user = userRepository.findByUserId(jwtProvider.getId(jwtToken)).get();
-        user.update(request.getUsername(), request.getRegion(), request.getOccupation());
+        user.update(request.getUsername(), request.getRegion(), request.getOccupation(), request.getIsHavingJob());
 
         UserDto body = user.toDto();
 
@@ -94,10 +115,20 @@ public class UserService {
             status = HttpStatus.BAD_REQUEST;
             return new ResponseEntity<>(status);
         }
-        user.update(request.getNewId(), request.getNewPassword());
+        user.update(request.getNewId(), passwordEncoder.encode(request.getNewPassword()));
 
         UserDto body = user.toDto();
 
         return new ResponseEntity<>(body, status);
     }
+    @Transactional
+    public ResponseEntity<UserDto> deactivateAccount(String jwtToken) {
+        User user = userRepository.findByUserId(jwtProvider.getId(jwtToken)).get();
+        user.deactivateAccount();
+
+        UserDto body = user.toDto();
+
+        return ResponseEntity.ok(body);
+    }
+
 }
