@@ -48,7 +48,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'intervlgo-ourfolio'
+          app-name: 'testwebappinterv'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D765A888ABE84714A4C535EBDD5864F2 }}
           package: '*.jar'
