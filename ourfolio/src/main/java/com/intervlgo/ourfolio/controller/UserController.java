@@ -60,11 +60,6 @@ public class UserController {
         return userService.updateIdPassword(userIdPasswordDto, jwtToken);
     }
 
-    @PatchMapping("")
-    public ResponseEntity<UserDto> changeEmploymentStatus(@RequestHeader(name = "Authorization") String jwtToken) {
-        return userService.changeEmploymentStatus(jwtToken);
-    }
-
     @DeleteMapping("")
     public ResponseEntity<UserDto> deactivateAccount(@RequestHeader(name = "Authorization") String jwtToken) {
         return userService.deactivateAccount(jwtToken);
