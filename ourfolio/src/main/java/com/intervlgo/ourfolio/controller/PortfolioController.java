@@ -33,15 +33,6 @@ public class PortfolioController {
         return portfolioService.postPortfolio(portfolioDto, jwtToken);
     }
 
-    @PostMapping("/file")
-    public ResponseEntity<PortfolioDto> postPortfolio(
-            @RequestPart(name = "portfolioDto") PortfolioDto portfolioDto,
-            @RequestHeader(name = "Authorization") String jwtToken,
-            @RequestPart(name="file") MultipartFile file
-            ) {
-        return portfolioService.postPortfolio(portfolioDto, jwtToken, file);
-    }
-
     @GetMapping("/list")
     public ResponseEntity<Page<PortfolioDto>> getPortfolioList(
             Pageable pageable,
@@ -64,10 +55,6 @@ public class PortfolioController {
         return portfolioService.getPortfolio(userId);
     }
 
-    @GetMapping(value = "/file/{userId}", produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<InputStreamResource> getFile(@PathVariable(name = "userId") String userId) {
-        return portfolioService.getFile(userId);
-    }
 
     @PostMapping("/{userId}/score")
     public ResponseEntity<ScoreDto> giveScore(

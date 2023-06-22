@@ -53,38 +53,40 @@ public class PortfolioService {
         return new ResponseEntity<>(body, status);
     }
 
-    public ResponseEntity<PortfolioDto> postPortfolio(PortfolioDto request, String jwtToken, MultipartFile file) {
-        HttpStatus status = HttpStatus.OK;
-
+    @Transactional
+    public ResponseEntity<PortfolioDto> updatePortfolio(String jwtToken, String content, String portfolioPageUrl, MultipartFile pdf, MultipartFile img) {
         User user = userRepository.findByUserId(jwtProvider.getId(jwtToken)).get();
 
-        if (portfolioRepository.existsByUser(user)) {
-            status = HttpStatus.CONFLICT;
-            return new ResponseEntity<>(status);
+        Optional<Portfolio> optionalPortfolio = portfolioRepository.findByUser(user);
+        if (optionalPortfolio.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
+        Portfolio portfolio = optionalPortfolio.get();
+        String portfolioFileName = null;
+        String portfolioOriName = null;
+        String imgFileName = null;
+        String imgOriName = null;
 
-        String savedFileName;
-        try {
-            savedFileName = blobService.uploadFile(file);
-        } catch (IOException e) {
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-            return new ResponseEntity<>(status);
+        if (pdf != null) {
+            try {
+                portfolioFileName = blobService.uploadFile(pdf);
+                portfolioOriName = pdf.getOriginalFilename();
+            } catch (IOException e) {
+                return ResponseEntity.internalServerError().build();
+            }
         }
+        if (img != null) {
+            try {
+                imgFileName = blobService.uploadFile(img);
+                imgOriName = img.getOriginalFilename();
+            } catch (IOException e) {
+                return ResponseEntity.internalServerError().build();
+            }
+        }
+        portfolio.update(content, portfolioPageUrl, portfolioFileName, portfolioOriName, imgFileName, imgOriName);
 
+        return ResponseEntity.ok(portfolio.toDto());
 
-        Portfolio portfolio = Portfolio.builder()
-                .user(user)
-                .content(request.getContent())
-                .portfolioPageUrl(request.getPortFolioPageUrl())
-                .portfolioFileName(savedFileName)
-                .portfolioOriName(file.getOriginalFilename())
-                .viewCnt(0L)
-                .build();
-        portfolioRepository.save(portfolio);
-
-        PortfolioDto body = portfolio.toDto();
-
-        return new ResponseEntity<>(body, status);
     }
 
     public ResponseEntity<Page<PortfolioDto>> getPortfolioes(Pageable pageable, String username, String userId, String region, String occupation,
@@ -122,7 +124,7 @@ public class PortfolioService {
         return new ResponseEntity<>(body, status);
     }
 
-    public ResponseEntity<InputStreamResource> getFile(String userId) {
+    public ResponseEntity<InputStreamResource> getPDF(String userId) {
         HttpStatus status = HttpStatus.OK;
 
         Optional<User> optionalUser = userRepository.findByUserId(userId);
@@ -141,6 +143,32 @@ public class PortfolioService {
 
         try {
             InputStreamResource file = new InputStreamResource(blobService.downloadFile(portfolio.getPortfolioFileName()).getInputStream());
+            return new ResponseEntity<>(file, status);
+        } catch (IOException e) {
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+            return new ResponseEntity<>(status);
+        }
+    }
+
+    public ResponseEntity<InputStreamResource> getIMG(String userId) {
+        HttpStatus status = HttpStatus.OK;
+
+        Optional<User> optionalUser = userRepository.findByUserId(userId);
+        if (optionalUser.isEmpty()) {
+            status = HttpStatus.NOT_FOUND;
+            return new ResponseEntity<>(status);
+        }
+        User user = optionalUser.get();
+
+        Optional<Portfolio> optionalPortfolio = portfolioRepository.findByUser_UserId(userId);
+        if (optionalPortfolio.isEmpty()) {
+            status = HttpStatus.NOT_FOUND;
+            return new ResponseEntity<>(status);
+        }
+        Portfolio portfolio = optionalPortfolio.get();
+
+        try {
+            InputStreamResource file = new InputStreamResource(blobService.downloadFile(portfolio.getImgFileName()).getInputStream());
             return new ResponseEntity<>(file, status);
         } catch (IOException e) {
             status = HttpStatus.INTERNAL_SERVER_ERROR;

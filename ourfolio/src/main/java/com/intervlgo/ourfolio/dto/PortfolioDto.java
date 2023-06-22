@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 public class PortfolioDto {
     private UserDto user;
     private String fileName;
+    private String imgName;
     private String content;
     private String portFolioPageUrl;
     private Long viewCnt;

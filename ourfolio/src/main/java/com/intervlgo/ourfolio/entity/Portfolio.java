@@ -30,11 +30,16 @@ public class Portfolio extends BaseTimeEntity{
     private Long viewCnt;
     @Column(name = "portfolio_page_url")
     private String portfolioPageUrl;
+    @Column(name="img_file_name")
+    private String imgFileName;
+    @Column(name = "img_ori_name")
+    private String imgOriName;
 
     public PortfolioDto toDto() {
         PortfolioDto portfolioDto = new PortfolioDto();
         portfolioDto.setUser(user.toDto());
         portfolioDto.setFileName(portfolioOriName);
+        portfolioDto.setImgName(imgOriName);
         portfolioDto.setContent(content);
         portfolioDto.setPortFolioPageUrl(portfolioPageUrl);
         portfolioDto.setViewCnt(viewCnt);
@@ -42,6 +47,15 @@ public class Portfolio extends BaseTimeEntity{
         portfolioDto.setModifiedAt(getModifiedAt());
 
         return portfolioDto;
+    }
+
+    public void update(String content, String portfolioPageUrl, String portfolioFileName, String portfolioOriName, String imgFileName, String imgOriName) {
+        if (content != null) this.content = content;
+        if (portfolioPageUrl != null) this.portfolioPageUrl = portfolioPageUrl;
+        if (portfolioFileName != null) this.portfolioFileName = portfolioFileName;
+        if (portfolioOriName != null) this.portfolioOriName = portfolioOriName;
+        if (imgFileName != null) this.imgFileName = imgFileName;
+        if (imgOriName != null) this.imgOriName = imgOriName;
     }
 
     public void view() {
