@@ -1,22 +1,31 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import axios from "axios";
 import "./home.css";
+import { Routes, Route, Link, BrowserRouter } from "react-router-dom";
+import SingUp from "../SingupScene/singup";
+import Home from "./home";
+import Singup from "../SingupScene/singup";
+import Modal from "react-awesome-modal";
 
 class home extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      visiable: false,
+    };
   }
+  _openModal = function () {
+    this.setState({
+      visible: true,
+    });
+  };
 
+  _closeModal = function () {
+    this.setState({
+      visible: false,
+    });
+  };
   render() {
-    const [hello, setHello] = useState("");
-
-    useEffect(() => {
-      axios
-        .post("/api/user/join")
-        .then((response) => setHello(response.data))
-        .catch((error) => console.log(error));
-    }, []);
-
     return (
       <div className="App">
         <section class="hero-heading-center wf-section">
@@ -62,9 +71,17 @@ class home extends Component {
                     </ul>
                     <ul role="list" class="nav-menu-block w-list-unstyled">
                       <li class="mobile-margin-top-10">
-                        <a href="#" class="button-primary w-button">
-                          sign in
-                        </a>
+                        <h5 onClick={() => this._openModal()}> sign up </h5>
+                        <Modal
+                          visible={this.state.visible}
+                          width="800"
+                          effect="fadeInDown"
+                          onClickAway={() => this._closeModal()}
+                        >
+                          <div className="singmodal">
+                            <Singup />
+                          </div>
+                        </Modal>
                       </li>
                     </ul>
                   </div>
@@ -90,7 +107,6 @@ class home extends Component {
               loading="lazy"
               width="500"
               height="500"
-              alt=""
             />
             <div>Best Portfolio</div>
           </div>
@@ -137,7 +153,6 @@ class home extends Component {
                                 data-name="password"
                                 placeholder="Enter your password"
                                 id="password-2"
-                                required=""
                               ></input>
                             </div>
                             <input
@@ -200,9 +215,9 @@ class home extends Component {
                     class="w-layout-cell"
                   ></div>
                 </div>
-                <a href="/work/project-2" class="project-name-link">
+                <Link href="/work/project-2" class="project-name-link">
                   실시간 댓글
-                </a>
+                </Link>
               </div>
             </div>
           </div>
