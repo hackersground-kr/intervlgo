@@ -1,7 +1,11 @@
 package com.intervlgo.ourfolio.controller;
 
+import com.azure.core.annotation.Get;
 import com.intervlgo.ourfolio.dto.PortfolioDto;
+import com.intervlgo.ourfolio.dto.ScoreAvgDto;
+import com.intervlgo.ourfolio.dto.ScoreDto;
 import com.intervlgo.ourfolio.service.PortfolioService;
+import com.intervlgo.ourfolio.service.ScoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
@@ -19,6 +23,7 @@ import java.time.format.DateTimeFormatter;
 @RequestMapping("api/portfolio")
 public class PortfolioController {
     private final PortfolioService portfolioService;
+    private final ScoreService scoreService;
 
     @PostMapping("")
     public ResponseEntity<PortfolioDto> postPortfolio(
@@ -62,6 +67,23 @@ public class PortfolioController {
     @GetMapping(value = "/file/{userId}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public ResponseEntity<InputStreamResource> getFile(@PathVariable(name = "userId") String userId) {
         return portfolioService.getFile(userId);
+    }
+
+    @PostMapping("/{userId}/score")
+    public ResponseEntity<ScoreDto> giveScore(
+            @RequestBody ScoreDto scoreDto,
+            @PathVariable(name = "userId") String portfolioWriterId,
+            @RequestHeader(name = "Authorization") String jwtToken
+
+    ) {
+        return scoreService.giveScore(scoreDto, portfolioWriterId, jwtToken);
+    }
+
+    @GetMapping("/{userId}/score")
+    public ResponseEntity<ScoreAvgDto> getAvgScore(
+            @PathVariable(name = "userId") String portfolioWriterId
+    ) {
+        return scoreService.getScores(portfolioWriterId);
     }
 
 

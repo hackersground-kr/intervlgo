@@ -48,7 +48,7 @@ public class PortfolioService {
                 .build();
         portfolioRepository.save(portfolio);
 
-        PortfolioDto body = portfolio.toDto(user);
+        PortfolioDto body = portfolio.toDto();
 
         return new ResponseEntity<>(body, status);
     }
@@ -82,7 +82,7 @@ public class PortfolioService {
                 .build();
         portfolioRepository.save(portfolio);
 
-        PortfolioDto body = portfolio.toDto(user);
+        PortfolioDto body = portfolio.toDto();
 
         return new ResponseEntity<>(body, status);
     }
@@ -93,7 +93,7 @@ public class PortfolioService {
 
         Page<Portfolio> portfolioPage = portfolioRepository.searchPortfolio(pageable, username, userId, region, occupation, viewCnt, from, to);
 
-        Page<PortfolioDto> body = portfolioPage.map(portfolio -> portfolio.toDto(portfolio.getUser()));
+        Page<PortfolioDto> body = portfolioPage.map(portfolio -> portfolio.toDto());
 
         return new ResponseEntity<>(body, status);
     }
@@ -117,7 +117,7 @@ public class PortfolioService {
         Portfolio portfolio = optionalPortfolio.get();
         portfolio.view();
 
-        PortfolioDto body = portfolio.toDto(user);
+        PortfolioDto body = portfolio.toDto();
 
         return new ResponseEntity<>(body, status);
     }

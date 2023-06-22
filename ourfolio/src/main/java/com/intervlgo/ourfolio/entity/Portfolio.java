@@ -31,7 +31,7 @@ public class Portfolio extends BaseTimeEntity{
     @Column(name = "portfolio_page_url")
     private String portfolioPageUrl;
 
-    public PortfolioDto toDto(User user) {
+    public PortfolioDto toDto() {
         PortfolioDto portfolioDto = new PortfolioDto();
         portfolioDto.setUser(user.toDto());
         portfolioDto.setFileName(portfolioOriName);

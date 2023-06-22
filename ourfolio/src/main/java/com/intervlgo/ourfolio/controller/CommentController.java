@@ -40,7 +40,7 @@ public class CommentController {
         return commentService.updateComment(commentDto, jwtToken, commentId);
     }
 
-    @PutMapping("/{commentId}")
+    @DeleteMapping("/{commentId}")
     public ResponseEntity<CommentDto> deleteComment(
             @RequestBody CommentDto commentDto,
             @RequestHeader(name = "Authorization") String jwtToken,
