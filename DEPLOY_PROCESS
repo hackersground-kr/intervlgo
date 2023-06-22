@@ -7,3 +7,63 @@
 7. 네트워킹: 공용엑세스 사용은 켜기, 네트워크 삽입 사용은 끈다.
 8. 모니터링의 Application Insights 사용은 아니오로한 무 검토+만들기 이후 만들기를 누른
 9. 배포 완료까지 기다리고 완료되면 리소스로 이동을 클릭한다.
+10. repository의 .github/workflows의 yml파일의 내용을 모두 지우고 아래 내용을 복사한다
+
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy JAR app to Azure Web App - intervlgo-ourfolio
+
+on:
+  push:
+    branches:
+      - dev_backend
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Java version
+        uses: actions/setup-java@v1
+        with:
+          java-version: '17'
+
+      - name: Build with Gradle
+        working-directory: ./ourfolio
+        run: chmod +x ./gradlew && ./gradlew bootJar
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v2
+        with:
+          name: java-app
+          path: ./ourfolio/build/libs/*.jar
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: java-app
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'intervlgo-ourfolio'
+          slot-name: 'Production'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D765A888ABE84714A4C535EBDD5864F2 }}
+          package: '*.jar'
+
+여기까지
+11. commit을 하면 자동으로 빌드 + 배포가 진행된다.
+12. 배포끝.
