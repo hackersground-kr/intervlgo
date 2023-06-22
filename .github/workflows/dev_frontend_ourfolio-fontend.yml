@@ -23,7 +23,7 @@ jobs:
 
       - name: npm install, build, and test
         run: |
-          npm install
+          npm i -g npm@latest
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
