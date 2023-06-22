@@ -6,3 +6,4 @@
 6. 배포 탭에서는 GitHub Actions 설정을 예로 선택하고 fork한 intervlgo repository의 main brach에 연결한다
 7. 네트워킹: 공용엑세스 사용은 켜기, 네트워크 삽입 사용은 끈다.
 8. 모니터링의 Application Insights 사용은 아니오로한 무 검토+만들기 이후 만들기를 누른
+9. 배포 완료까지 기다리고 완료되면 리소스로 이동을 클릭한다.
