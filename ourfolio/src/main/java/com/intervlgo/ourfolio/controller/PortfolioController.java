@@ -64,7 +64,7 @@ public class PortfolioController {
         return portfolioService.getPortfolio(userId);
     }
 
-    @GetMapping(value = "/file/{userId}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @GetMapping(value = "/file/{userId}", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<InputStreamResource> getFile(@PathVariable(name = "userId") String userId) {
         return portfolioService.getFile(userId);
     }

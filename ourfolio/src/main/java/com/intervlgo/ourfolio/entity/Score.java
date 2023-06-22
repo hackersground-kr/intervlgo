@@ -17,6 +17,7 @@ import javax.persistence.*;
 @Table(name = "score")
 public class Score {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "portfolio_id")

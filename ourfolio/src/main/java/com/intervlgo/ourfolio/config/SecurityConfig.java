@@ -3,6 +3,7 @@ package com.intervlgo.ourfolio.config;
 import com.intervlgo.ourfolio.filter.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -30,6 +31,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagger-ui/"
     };
 
+    private static final String[] UNAUTH_PATH = {
+            "/api/comment/**",
+            "/api/user/**",
+            "/api/portfolio/**",
+            "api/user/**"
+    };
+
 
     @Override
     public void configure(WebSecurity web) {
@@ -51,6 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/user/join/**").permitAll()
                 .antMatchers("/api/user/token/**").permitAll()
+                .antMatchers(HttpMethod.GET, UNAUTH_PATH).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .apply(new FilterConfig(jwtProvider))

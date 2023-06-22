@@ -42,11 +42,10 @@ public class CommentController {
 
     @DeleteMapping("/{commentId}")
     public ResponseEntity<CommentDto> deleteComment(
-            @RequestBody CommentDto commentDto,
             @RequestHeader(name = "Authorization") String jwtToken,
             @PathVariable(name = "commentId") Long commentId
     ) {
-        return commentService.updateComment(commentDto, jwtToken, commentId);
+        return commentService.deleteComment(jwtToken, commentId);
     }
 
 }
