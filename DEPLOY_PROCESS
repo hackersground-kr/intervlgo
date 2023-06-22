@@ -8,6 +8,7 @@
 8. 모니터링의 Application Insights 사용은 아니오로한 무 검토+만들기 이후 만들기를 누른
 9. 배포 완료까지 기다리고 완료되면 리소스로 이동을 클릭한다.
 10. repository의 .github/workflows의 yml파일의 내용을 모두 지우고 아래 내용을 복사한다
+11. 단 이때 최하단의 app-name과 publish-profile은 바꾸지 않는다
 
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
@@ -59,11 +60,11 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'intervlgo-ourfolio'
+          app-name: 원래거 그대로 두기
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D765A888ABE84714A4C535EBDD5864F2 }}
+          publish-profile: 원래거 그대로 두기
           package: '*.jar'
 
 여기까지
 11. commit을 하면 자동으로 빌드 + 배포가 진행된다.
-12. 배포끝.
+12. 만약 workflow가 진행되지 않으면 우상단의 view Runs를 눌러 workflow를 진행시킨다
