@@ -29,7 +29,7 @@
 
 ## 제품 소개 슬라이드
 
-[pdf]([https://github.com/hackersground-kr/intervlgo/blob/main/decks/intervlgo%20_%20%E1%84%89%E1%85%AE%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8C%E1%85%A5%E1%86%AB.pdf](https://github.com/hackersground-kr/intervlgo/blob/main/decks/intervlgo%20.pdf)https://github.com/hackersground-kr/intervlgo/blob/main/decks/intervlgo%20.pdf)
+[pdf](https://github.com/hackersground-kr/intervlgo/blob/main/decks/intervlgo%20.pdf)
 
 ## 제품 소개 동영상
 
